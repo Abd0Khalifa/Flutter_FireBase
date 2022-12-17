@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/widgets/custem_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -139,6 +140,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(
                   height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: CustomButton(text: "Login", onPressed: () {}),
                 ),
               ],
             ),

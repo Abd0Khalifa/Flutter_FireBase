@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/widgets/custem_button.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -10,6 +11,8 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  String? otpCode;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,18 +68,35 @@ class _OtpScreenState extends State<OtpScreen> {
                   length: 6,
                   showCursor: true,
                   defaultPinTheme: PinTheme(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.purple.shade200,
-                        ),
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.purple.shade200,
                       ),
-                      textStyle: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      )),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onSubmitted: (value) {
+                    setState(() {
+                      otpCode = value;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: CustomButton(
+                    text: "verify",
+                    onPressed: () {},
+                  ),
                 ),
               ],
             ),

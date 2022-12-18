@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/screens/opt_screen.dart';
+
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../screens/otp_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isSignedIn = false;

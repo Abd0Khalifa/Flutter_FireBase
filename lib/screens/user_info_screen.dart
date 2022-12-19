@@ -29,7 +29,10 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     bioController.dispose();
   }
 
-  
+  void selectImage() async {
+    image = await pickImage(context);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => selectImage(),
                   child: image == null
                       ? const CircleAvatar(
                           backgroundColor: Colors.purple,
@@ -64,6 +67,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                   width: MediaQuery.of(context).size.width,
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  margin: const EdgeInsets.only(top: 20),
                   child: Column(
                     children: [
                       const SizedBox(

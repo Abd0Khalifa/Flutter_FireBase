@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/provider/auth_provider.dart';
+import 'package:flutter_firebase/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,10 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              
+              ap.userSignOut().then(
+                    (value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WelcomeScreen(),
+                      ),
+                    ),
+                  );
             },
             icon: const Icon(Icons.exit_to_app),
-          )
+          ),
         ],
       ),
       body: Center(

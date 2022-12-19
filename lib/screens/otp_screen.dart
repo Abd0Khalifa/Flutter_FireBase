@@ -98,6 +98,28 @@ class _OtpScreenState extends State<OtpScreen> {
                     onPressed: () {},
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Didn't receive any code?",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Resend New Code",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple,
+                  ),
+                ),
               ],
             ),
           ),

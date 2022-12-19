@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/user_model.dart';
 import 'package:flutter_firebase/provider/auth_provider.dart';
@@ -177,6 +176,11 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
       uid: "",
     );
     if (image != null) {
+      ap.saveUserDataToFirebase(
+          context: context,
+          userModel: userModel,
+          profilePic: image!,
+          onSuccess: () {});
     } else {
       showSnackBar(context, "Please upload your profile Photo");
     }

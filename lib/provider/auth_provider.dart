@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/model/user_model.dart';
 
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,6 +93,23 @@ class AuthProvider extends ChangeNotifier {
     } else {
       print("NEW USER");
       return false;
+    }
+  }
+
+  void saveUserDataToFirebase({
+    required BuildContext context,
+    required UserModel userModel,
+    required File profilePic,
+    required Function onSuccess,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message.toString());
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/model/user_model.dart';
 import 'package:flutter_firebase/provider/auth_provider.dart';
+import 'package:flutter_firebase/utils/utils.dart';
 import 'package:flutter_firebase/widgets/custem_button.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +38,9 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
           child: Center(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 InkWell(
                   onTap: () {},
                   child: image == null
@@ -91,10 +96,10 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                 ),
                 SizedBox(
                   height: 50,
-                  width: MediaQuery.of(context).size.width * 0.80,
+                  width: MediaQuery.of(context).size.width * 0.90,
                   child: CustomButton(
                     text: "Continue",
-                    onPressed: () {},
+                    onPressed: () => storeData(),
                   ),
                 ),
               ],
@@ -156,5 +161,18 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
 
   void storeData() async {
     final ap = Provider.of<AuthProvider>(context, listen: false);
+    UserModel userModel = UserModel(
+      name: nameController.text.trim(),
+      email: emailController.text.trim(),
+      bio: bioController.text.trim(),
+      profilPic: "",
+      createdAt: "",
+      phoneNumber: "",
+      uid: "",
+    );
+    if (image != null) {
+    } else {
+      showSnackBar(context, "Please upload your profile Photo");
+    }
   }
 }

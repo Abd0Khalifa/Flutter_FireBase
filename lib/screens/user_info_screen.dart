@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/user_model.dart';
 import 'package:flutter_firebase/provider/auth_provider.dart';
+import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:flutter_firebase/widgets/custem_button.dart';
 import 'package:provider/provider.dart';
@@ -35,82 +36,91 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading =
+        Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
+        child: isLoading == true
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.purple,
                 ),
-                InkWell(
-                  onTap: () => selectImage(),
-                  child: image == null
-                      ? const CircleAvatar(
-                          backgroundColor: Colors.purple,
-                          radius: 70,
-                          child: Icon(
-                            Icons.account_circle,
-                            size: 70,
-                            color: Colors.white,
-                          ),
-                        )
-                      : CircleAvatar(
-                          backgroundImage: FileImage(image!),
-                          radius: 70,
-                        ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  margin: const EdgeInsets.only(top: 20),
+              )
+            : SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
+                child: Center(
                   child: Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
-                      textfeld(
-                        hintText: "Abdulrahman Khalifa",
-                        icon: Icons.account_circle,
-                        inputType: TextInputType.name,
-                        maxLines: 1,
-                        controller: nameController,
+                      InkWell(
+                        onTap: () => selectImage(),
+                        child: image == null
+                            ? const CircleAvatar(
+                                backgroundColor: Colors.purple,
+                                radius: 70,
+                                child: Icon(
+                                  Icons.account_circle,
+                                  size: 70,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: FileImage(image!),
+                                radius: 70,
+                              ),
                       ),
-                      textfeld(
-                        hintText: "abc@example.com",
-                        icon: Icons.email,
-                        inputType: TextInputType.emailAddress,
-                        maxLines: 1,
-                        controller: emailController,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            textfeld(
+                              hintText: "Abdulrahman Khalifa",
+                              icon: Icons.account_circle,
+                              inputType: TextInputType.name,
+                              maxLines: 1,
+                              controller: nameController,
+                            ),
+                            textfeld(
+                              hintText: "abc@example.com",
+                              icon: Icons.email,
+                              inputType: TextInputType.emailAddress,
+                              maxLines: 1,
+                              controller: emailController,
+                            ),
+                            textfeld(
+                              hintText: "Enter your bio here...",
+                              icon: Icons.edit,
+                              inputType: TextInputType.name,
+                              maxLines: 2,
+                              controller: bioController,
+                            ),
+                          ],
+                        ),
                       ),
-                      textfeld(
-                        hintText: "Enter your bio here...",
-                        icon: Icons.edit,
-                        inputType: TextInputType.name,
-                        maxLines: 2,
-                        controller: bioController,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        child: CustomButton(
+                          text: "Continue",
+                          onPressed: () => storeData(),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  child: CustomButton(
-                    text: "Continue",
-                    onPressed: () => storeData(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
@@ -177,10 +187,22 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     );
     if (image != null) {
       ap.saveUserDataToFirebase(
-          context: context,
-          userModel: userModel,
-          profilePic: image!,
-          onSuccess: () {});
+        context: context,
+        userModel: userModel,
+        profilePic: image!,
+        onSuccess: () {
+          ap.saveUserDataToSP().then(
+                (value) => ap.setSignIn().then(
+                      (value) => Navigator.pushAndRemoveUntil(
+                          (context),
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                          (route) => false),
+                    ),
+              );
+        },
+      );
     } else {
       showSnackBar(context, "Please upload your profile Photo");
     }

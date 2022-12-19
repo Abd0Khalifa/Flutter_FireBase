@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/model/user_model.dart';
 
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/user_model.dart';
 import '../screens/otp_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -18,9 +19,12 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? _uid;
   String get uid => _uid!;
+  UserModel? _userModel;
+  UserModel get userModel => _userModel!;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   AuthProvider() {
     checkSign();
@@ -105,11 +109,34 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      
+      await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
+        userModel.profilPic = value;
+        userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
+        userModel.phoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
+        userModel.uid = _firebaseAuth.currentUser!.phoneNumber!;
+      });
+      _userModel = userModel;
+
+      await _firebaseFirestore
+          .collection("users")
+          .doc(_uid)
+          .set(userModel.toMap())
+          .then((value) {
+        onSuccess();
+        _isLoading = false;
+        notifyListeners();
+      });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message.toString());
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<String> storeFileToStorage(String ref, File file) async {
+    UploadTask uploadTask = _firebaseStorage.ref().child(ref).putFile(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 }

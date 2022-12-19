@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/provider/auth_provider.dart';
+import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/screens/user_info_screen.dart';
 import 'package:flutter_firebase/utils/utils.dart';
 import 'package:flutter_firebase/widgets/custem_button.dart';
@@ -157,6 +158,18 @@ class _OtpScreenState extends State<OtpScreen> {
         ap.checkExistingUser().then(
           (value) async {
             if (value == true) {
+              ap.getDataFromFirestore().then(
+                    (value) => ap.saveUserDataToSP().then(
+                          (value) => ap.setSignIn().then(
+                                (value) => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomeScreen(),
+                                    ),
+                                    (route) => false),
+                              ),
+                        ),
+                  );
             } else {
               Navigator.pushAndRemoveUntil(
                   context,

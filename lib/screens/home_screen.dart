@@ -20,7 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("FlutterPhone Auth"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              
+            },
             icon: const Icon(Icons.exit_to_app),
           )
         ],

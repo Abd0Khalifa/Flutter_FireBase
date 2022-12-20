@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_firebase/utils/utils.dart';
@@ -160,7 +159,7 @@ class AuthProvider extends ChangeNotifier {
         createdAt: snapshot['createdAt'],
         bio: snapshot['bio'],
         uid: snapshot['uid'],
-        profilPic: snapshot['profilPic'],
+        profilPic: snapshot['profilePic'],
         phoneNumber: snapshot['phoneNumber'],
       );
       _uid = userModel.uid;

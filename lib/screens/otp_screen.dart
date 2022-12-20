@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class OtpScreen extends StatefulWidget {
   final String verificationId;
   const OtpScreen({super.key, required this.verificationId});
+  
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -56,7 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       const Text(
                         "Verification",
@@ -65,7 +66,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       const Text(
                         "Enter the OTP send to your phone number",
                         style: TextStyle(
@@ -76,14 +77,14 @@ class _OtpScreenState extends State<OtpScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       Pinput(
                         length: 6,
                         showCursor: true,
                         defaultPinTheme: PinTheme(
                           width: 60,
-                          height: 60,
+                          height: 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
@@ -119,7 +120,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       const Text(
                         "Didn't receive any code?",
@@ -130,7 +131,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
                       const Text(
                         "Resend New Code",
